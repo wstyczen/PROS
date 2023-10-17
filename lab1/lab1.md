@@ -55,7 +55,7 @@ void switch_field(char board[ROWS][COLS], int row, int col);
 bool put(char board[ROWS][COLS], int row, int col);
 
 // Checks whether the board contains only the given value.
-bool is_filled_with_value(char board[ROWS][COLS], char value);
+bool is_full_of(char board[ROWS][COLS], char value);
 ```
 
 ### Główna pętla gry
