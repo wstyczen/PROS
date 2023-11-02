@@ -57,6 +57,7 @@ void print_polynomial(int *polynomial_coefficients, int polynomial_degree) {
   }
 }
 
+// Represents an integer array coupled with its size.
 struct Array {
   int size;
   int *values;
@@ -104,6 +105,14 @@ int substitute(int *polynomial_coefficients, int polynomial_degree,
   return result;
 }
 
+// Whether element with value is already present in array.
+bool contains(double *array, int array_size, double value) {
+  for (int i = 0; i < array_size; i++)
+    if (array[i] == value)
+      return true;
+  return false;
+}
+
 // Returns the roots of the polynomial based on Bezoute's theorem.
 double *get_roots(int *polynomial_coefficients, int polynomial_degree,
                   struct Array *p, struct Array *q, int *root_count) {
@@ -114,6 +123,11 @@ double *get_roots(int *polynomial_coefficients, int polynomial_degree,
   for (int p_i = 0; p_i != p->size; p_i++) {
     for (int q_i = 0; q_i != q->size; q_i++) {
       double root_candidate = (double)p->values[p_i] / q->values[q_i];
+
+      // If this value was already found, pass.
+      if (contains(roots, *root_count, root_candidate) ||
+          contains(roots, *root_count, -root_candidate))
+        continue;
 
       if (substitute(polynomial_coefficients, polynomial_degree,
                      root_candidate) == 0) {
@@ -145,6 +159,21 @@ int main(int argc, char *argv[]) {
   print_polynomial(polynomial_coefficients, polynomial_degree);
   printf("\n");
 
+  // Polynomial degree must be at most 10.
+  const int MAX_POLYNOMIAL_DEGREE_ACCEPTED = 10;
+  if (polynomial_degree > MAX_POLYNOMIAL_DEGREE_ACCEPTED) {
+    printf("Polynomials up to %ith degree accepted. Degree of polynomial "
+           "provided: %i.",
+           MAX_POLYNOMIAL_DEGREE_ACCEPTED, polynomial_degree);
+    return 2;
+  }
+
+  // The free term must be non-zero.
+  if (polynomial_coefficients[polynomial_degree] == 0) {
+    printf("The free term of the polynomial cannot be zero.");
+    return 3;
+  }
+
   // Find non-zero coefficient for highest power and lowest-power.
   int highest_power_coeff = INT_MAX, lowest_power_coeff;
   for (int i = 0; i <= polynomial_degree; i++) {
@@ -172,9 +201,9 @@ int main(int argc, char *argv[]) {
   int root_count;
   double *roots = get_roots(polynomial_coefficients, polynomial_degree, &p, &q,
                             &root_count);
-  printf("Found roots: [");
+  printf("Found %i roots: [", root_count);
   for (int i = 0; i < root_count; i++) {
-    printf("%f, ", roots[i]);
+    printf("%.3f, ", roots[i]);
   }
   printf("]");
 
