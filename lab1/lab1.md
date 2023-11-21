@@ -1,3 +1,5 @@
+Wojciech Styczeń, 303776
+
 # Sprawozdanie lab 1
 
 ## Wykorzystane techonologie

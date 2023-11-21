@@ -15,7 +15,16 @@
           "type": "cppdbg",
           "request": "launch",
           "program": "${workspaceFolder}\\build\\lab2.exe",
-          "args": ["1", "2", "-3"],
+          "args": ["1", "-29", "-100", "2900"],
+          "MIMode": "gdb",
+          "cwd": "${workspaceFolder}",
+      },
+      {
+          "name": "L3",
+          "type": "cppdbg",
+          "request": "launch",
+          "program": "${workspaceFolder}\\build\\lab3.exe",
+          "args": ["1", "-29", "-100", "2900"],
           "MIMode": "gdb",
           "cwd": "${workspaceFolder}",
       }
